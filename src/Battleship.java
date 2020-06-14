@@ -27,11 +27,12 @@ public class Battleship {
 
         // Ask user to enter coordinate of 5 ships
         Scanner input = new Scanner(System.in);
-        int[][] userShips = new int[5][2]; // array to record the user's ship coordinate
+        int[][] userShips = {{-1,-1},{-1,-1},{-1,-1},{-1,-1},{-1,-1}};
 
-        int[] xy = new int[2];
+        int[] xy;
         boolean check;
 
+        System.out.println("Deploy your ships:");
         for (int i = 1; i <= 5; i++) {
             xy = requestCoordinate(i);
             check = checkRepeatedCoordinate(xy,userShips);
@@ -41,7 +42,29 @@ public class Battleship {
                 check = checkRepeatedCoordinate(xy,userShips);
             }
             userShips[i-1] = xy;
+            ocean[xy[0]][xy[1]] = 1;
         }
+
+        // Print Ocean with user's ships
+        printOceanStrip();
+        for (int row = 0; row < ocean.length; row++) {
+            System.out.print(row + "|");
+            for (int col = 0; col < ocean[row].length; col++) {
+                if (ocean[row][col] == 0) {
+                    System.out.print(" ");
+                } else if (ocean[row][col] == 1) {
+                    System.out.print("@");
+                } else {
+                    System.out.print(ocean[row][col]);
+                }
+            }
+            System.out.println("|" + row);
+        }
+        printOceanStrip();
+
+
+
+
 
         //TODO Record the ship as 1 and printed out the Ocean Map using @
 
