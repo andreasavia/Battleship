@@ -25,20 +25,24 @@ public class Battleship {
         }
         printOceanStrip();
 
-        // Scanner input = new Scanner(System.in);
+        // Ask user to enter coordinate of 5 ships
+        Scanner input = new Scanner(System.in);
+        int[][] userShips = new int[5][2]; // array to record the user's ship coordinate
 
+        int[] xy = new int[2];
+        boolean check;
 
-       //TODO Ask user to enter the coordinate of 5 ships
+        for (int i = 1; i <= 5; i++) {
+            xy = requestCoordinate(i);
+            check = checkRepeatedCoordinate(xy,userShips);
+            while (check) {
+                System.out.println("The coordinates entered for ship no. " + i + " have already been entered. Enter them again.");
+                xy = requestCoordinate(i);
+                check = checkRepeatedCoordinate(xy,userShips);
+            }
+            userShips[i-1] = xy;
+        }
 
-        /*
-        System.out.print("Enter X coordinate for your ship: ");
-        int x = input.nextInt();
-        System.out.print("Enter X coordinate for your ship: ");
-        int y = input.nextInt();
-
-         */
-
-        //TODO Check the user has not entered the same coordinate twice or has entered invalid coordinates
         //TODO Record the ship as 1 and printed out the Ocean Map using @
 
         //TODO Deploy computer ships
@@ -53,5 +57,39 @@ public class Battleship {
             System.out.print(oceanStrip[col]);
         }
         System.out.println(" "+" ");
+    }
+    public static int checkCoordinateOK(int a) {
+        Scanner input = new Scanner(System.in);
+        while (a < 0 | a > 9) {
+            System.out.print("Enter a valid coordinate between 0 and 9: ");
+            a = input.nextInt();
+        }
+        return a;
+    }
+    public static int[] requestCoordinate(int i) {
+
+        Scanner input = new Scanner(System.in);
+
+        System.out.print("Enter X coordinate for your ship no. " + i + ": ");
+        int x = input.nextInt();
+        x = checkCoordinateOK(x);
+
+        System.out.print("Enter Y coordinate for your ship no. " + i + ": ");
+        int y = input.nextInt();
+        y = checkCoordinateOK(y);
+
+        int[] xy = {x,y};
+
+        return xy;
+    }
+    public static boolean checkRepeatedCoordinate(int[] xy, int[][] userShips) {
+        boolean check = false;
+        for (int i = 0; i < userShips.length; i++) {
+            check = Arrays.equals(xy,userShips[i]);
+            if (check) {
+                break;
+            }
+        }
+        return check;
     }
 }
